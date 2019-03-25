@@ -36,7 +36,7 @@ namespace PlugIR
                 if (adminRights)
                     Text += " - Admin";
                 var writeAllow = HasWritePermissionOnDir(PathConfig);
-                Text += " - Write config: " + (writeAllow ? "allow" : "deni");
+                Text += " - Write config: " + (writeAllow ? "allow" : "deny");
 
                 asyncOperation = AsyncOperationManager.CreateOperation(null);
                 InitSerialConfigurator();
@@ -60,9 +60,15 @@ namespace PlugIR
                 loaded = true;
 
                 ChangeStartup();
+
+                var osdWindows = new List<OsdText>();
+                foreach (var screen in Screen.AllScreens)
+                    osdWindows.Add(OsdText.CreateAndShow("PlugIr is ready", Color.LightSalmon, Color.FromArgb(37, 37, 37), 72, screen));
             }
             catch (Exception ex) { MessageBox.Show("Error " + GetType().FullName + ": " + MethodBase.GetCurrentMethod().Name + "()\n" + ex.ToString(), "Error " + Name); }
         }
+
+
 
         bool HasWritePermissionOnDir(string path)
         {
@@ -133,10 +139,7 @@ namespace PlugIR
                     serialPort.Close();
                 InitSerialPort();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error " + GetType().FullName + ": " + MethodBase.GetCurrentMethod().Name + "()\n" + ex.ToString(), "Error " + Name);
-            }
+            catch (Exception ex) { MessageBox.Show("Error " + GetType().FullName + ": " + MethodBase.GetCurrentMethod().Name + "()\n" + ex.ToString(), "Error " + Name); }
         }
 
         void InitSerialConfigurator()
@@ -230,7 +233,7 @@ namespace PlugIR
                                 if (int.TryParse(val, out value))
                                     ((ComboBox)ctrl).SelectedIndex = value < 0 ? 0 : value;
                             }
-                              
+
                         }
                         else
                             ctrl.Text = val;
