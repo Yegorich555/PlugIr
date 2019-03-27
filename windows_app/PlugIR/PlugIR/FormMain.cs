@@ -10,12 +10,10 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
 using YLib.NewControls;
-using YLib;
 using System.Text;
 using Microsoft.Win32;
 using System.Security.Principal;
 using System.Security.AccessControl;
-
 
 namespace PlugIR
 {
@@ -60,15 +58,43 @@ namespace PlugIR
                 loaded = true;
 
                 ChangeStartup();
-
-                var osdWindows = new List<OsdText>();
-                foreach (var screen in Screen.AllScreens)
-                    osdWindows.Add(OsdText.CreateAndShow("PlugIr is ready", Color.LightSalmon, Color.FromArgb(37, 37, 37), 72, screen));
             }
             catch (Exception ex) { MessageBox.Show("Error " + GetType().FullName + ": " + MethodBase.GetCurrentMethod().Name + "()\n" + ex.ToString(), "Error " + Name); }
         }
 
+        bool _isReady = false;
+        void SetIsReady()
+        {
+            if (_isReady)
+                return;
+            _isReady = true;
+            _activityHandler.GotActivity += _activityHandler_GotActivity;
 
+            foreach (var screen in Screen.AllScreens)
+                _osdWindows.Add(OsdText.CreateAndShow($"PlugIr is {(IsPortOpened ? "" : "not ")}ready", IsPortOpened ? Color.LightGreen : Color.LightSalmon, Color.FromArgb(37, 37, 37), 72, screen));
+
+        }
+
+        private void _activityHandler_GotActivity(object sender, EventArgs e)
+        {
+            GotActivity();
+        }
+
+        UserActivityHandler _activityHandler = new UserActivityHandler();
+        List<OsdText> _osdWindows = new List<OsdText>();
+        bool _gotActivity = false;
+        void GotActivity()
+        {
+            if (_gotActivity)
+                return;
+            _gotActivity = true;
+            _activityHandler.Dispose();
+            _activityHandler = null;
+
+            foreach (var osd in _osdWindows)
+                osd.Close();
+            _osdWindows = null;
+        }
 
         bool HasWritePermissionOnDir(string path)
         {
@@ -356,7 +382,10 @@ namespace PlugIR
             try
             {
                 if (string.IsNullOrWhiteSpace(NamePort))
+                {
+                    asyncOperation.Post(() => SetIconByStateIr(StateIr.Error));
                     return;
+                }
                 using (serialPort = new SafeSerialPort(NamePort, BaudRate, DataBits, Parity, StopBits))
                 {
                     serialPort.NewLine = "\r\n";
@@ -364,7 +393,11 @@ namespace PlugIR
                     if (SerialConfigValidated && portNames.Contains(serialPort.PortName, StringComparer.OrdinalIgnoreCase))
                     {
                         serialPort.Open();
-                        asyncOperation.Post(() => { lblState.Text = "State: " + serialPort.PortName + " opened"; });
+                        asyncOperation.Post(() =>
+                        {
+                            lblState.Text = "State: " + serialPort.PortName + " opened";
+                            SetIconByStateIr(StateIr.Normal);
+                        });
                     }
                     else
                         asyncOperation.Post(() => SetIconByStateIr(StateIr.Error));
@@ -421,6 +454,7 @@ namespace PlugIR
         static RC5code lastCode;
         void CodeReaded(object state)
         {
+            GotActivity();
             richTextBoxConsole.AppendLine(state);
             richTextBoxConsole.ScrollToCaret();
             labelLastCode.Text = state.ToStringNull();
@@ -722,6 +756,7 @@ namespace PlugIR
 
         enum StateIr { Normal, Error, Receive }
 
+        bool IsPortOpened { get; set; }
         void SetIconByStateIr(StateIr stateIr)
         {
             try
@@ -730,11 +765,14 @@ namespace PlugIR
                 {
                     case StateIr.Normal:
                         notifyIcon1.Icon = ResourceIcons.RemoteIR_tray;
+                        IsPortOpened = true;
                         break;
                     case StateIr.Error:
+                        IsPortOpened = false;
                         notifyIcon1.Icon = ResourceIcons.RemoteIR_trayError;
                         break;
                     case StateIr.Receive:
+                        IsPortOpened = true;
                         notifyIcon1.Icon = ResourceIcons.RemoteIR_trayActive;
                         var timer = new Timer();
                         timer.Tick += Timer_Tick;
@@ -742,6 +780,7 @@ namespace PlugIR
                         timer.Start();
                         break;
                 }
+                SetIsReady();
             }
             catch (Exception ex) { MessageBox.Show("Error " + GetType().FullName + ": " + MethodBase.GetCurrentMethod().Name + "()\n" + ex.ToString(), "Error " + Name); }
         }

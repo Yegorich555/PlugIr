@@ -94,6 +94,7 @@
     <Compile Include="TextBoxEnter.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UserActivityHandler.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
