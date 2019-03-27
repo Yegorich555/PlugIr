@@ -76,6 +76,7 @@ namespace PlugIR
             this.resetDeviceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chb_ShowOsdIsReady = new YLib.NewControls.CheckBoxNew();
             this.tabPage_3.SuspendLayout();
             this.tabPage_2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -96,7 +97,7 @@ namespace PlugIR
             this.tabPage_3.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabPage_3.Location = new System.Drawing.Point(1, 30);
             this.tabPage_3.Name = "tabPage_3";
-            this.tabPage_3.Size = new System.Drawing.Size(762, 307);
+            this.tabPage_3.Size = new System.Drawing.Size(762, 356);
             this.tabPage_3.TabIndex = 4;
             this.tabPage_3.Text = "tabPage_3";
             this.tabPage_3.TextTitle = "Console";
@@ -110,7 +111,7 @@ namespace PlugIR
             this.richTextBoxConsole.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxConsole.Name = "richTextBoxConsole";
             this.richTextBoxConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBoxConsole.Size = new System.Drawing.Size(762, 285);
+            this.richTextBoxConsole.Size = new System.Drawing.Size(762, 334);
             this.richTextBoxConsole.TabIndex = 2;
             this.richTextBoxConsole.Text = "";
             // 
@@ -124,7 +125,7 @@ namespace PlugIR
             this.buttonSend.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonSend.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonSend.GradientType = YLib.Expansion.GradientTypes.LightDark0;
-            this.buttonSend.Location = new System.Drawing.Point(699, 285);
+            this.buttonSend.Location = new System.Drawing.Point(699, 334);
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(64, 22);
             this.buttonSend.TabIndex = 1;
@@ -138,7 +139,7 @@ namespace PlugIR
             this.textBoxSend.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSend.BorderThickness = 1;
             this.textBoxSend.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBoxSend.Location = new System.Drawing.Point(0, 285);
+            this.textBoxSend.Location = new System.Drawing.Point(0, 334);
             this.textBoxSend.Name = "textBoxSend";
             this.textBoxSend.Size = new System.Drawing.Size(762, 22);
             this.textBoxSend.TabIndex = 0;
@@ -146,6 +147,7 @@ namespace PlugIR
             // tabPage_2
             // 
             this.tabPage_2.BackColor = System.Drawing.Color.Silver;
+            this.tabPage_2.Controls.Add(this.chb_ShowOsdIsReady);
             this.tabPage_2.Controls.Add(this.groupBox2);
             this.tabPage_2.Controls.Add(this.btnReset);
             this.tabPage_2.Controls.Add(this.groupBox1);
@@ -156,7 +158,7 @@ namespace PlugIR
             this.tabPage_2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabPage_2.Location = new System.Drawing.Point(1, 30);
             this.tabPage_2.Name = "tabPage_2";
-            this.tabPage_2.Size = new System.Drawing.Size(762, 307);
+            this.tabPage_2.Size = new System.Drawing.Size(762, 356);
             this.tabPage_2.TabIndex = 2;
             this.tabPage_2.Text = "tabPage_2";
             this.tabPage_2.TextTitle = "Settings";
@@ -458,7 +460,7 @@ namespace PlugIR
             this.tabPage_1.Controls.Add(this.dgv);
             this.tabPage_1.Location = new System.Drawing.Point(1, 30);
             this.tabPage_1.Name = "tabPage_1";
-            this.tabPage_1.Size = new System.Drawing.Size(762, 307);
+            this.tabPage_1.Size = new System.Drawing.Size(762, 356);
             this.tabPage_1.TabIndex = 0;
             this.tabPage_1.Text = "tabPage_1";
             this.tabPage_1.TextTitle = "List IR commands";
@@ -482,7 +484,7 @@ namespace PlugIR
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
             this.dgv.RowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgv.Size = new System.Drawing.Size(762, 307);
+            this.dgv.Size = new System.Drawing.Size(762, 356);
             this.dgv.TabIndex = 4;
             this.dgv.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
             // 
@@ -545,7 +547,7 @@ namespace PlugIR
             this.labelLastCode.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelLastCode.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.labelLastCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(202)))), ((int)(((byte)(99)))));
-            this.labelLastCode.Location = new System.Drawing.Point(0, 338);
+            this.labelLastCode.Location = new System.Drawing.Point(0, 387);
             this.labelLastCode.Name = "labelLastCode";
             this.labelLastCode.Size = new System.Drawing.Size(764, 24);
             this.labelLastCode.TabIndex = 3;
@@ -570,7 +572,7 @@ namespace PlugIR
             this.tabControlNew1.Location = new System.Drawing.Point(0, 0);
             this.tabControlNew1.Name = "tabControlNew1";
             this.tabControlNew1.SelectedIndex = 1;
-            this.tabControlNew1.Size = new System.Drawing.Size(764, 338);
+            this.tabControlNew1.Size = new System.Drawing.Size(764, 387);
             this.tabControlNew1.TabIndex = 0;
             // 
             // notifyIcon1
@@ -612,12 +614,32 @@ namespace PlugIR
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // chb_ShowOsdIsReady
+            // 
+            this.chb_ShowOsdIsReady.AutoHeight = false;
+            this.chb_ShowOsdIsReady.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.chb_ShowOsdIsReady.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.chb_ShowOsdIsReady.BorderColor = System.Drawing.Color.Gray;
+            this.chb_ShowOsdIsReady.Checked = true;
+            this.chb_ShowOsdIsReady.CheckSize = 2;
+            this.chb_ShowOsdIsReady.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.chb_ShowOsdIsReady.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.chb_ShowOsdIsReady.GradientType = YLib.Expansion.GradientTypes.DarkLight90;
+            this.chb_ShowOsdIsReady.Location = new System.Drawing.Point(11, 317);
+            this.chb_ShowOsdIsReady.Margin = new System.Windows.Forms.Padding(6);
+            this.chb_ShowOsdIsReady.Name = "chb_ShowOsdIsReady";
+            this.chb_ShowOsdIsReady.Size = new System.Drawing.Size(210, 16);
+            this.chb_ShowOsdIsReady.TabIndex = 5;
+            this.chb_ShowOsdIsReady.Text = "Show OSD \'Is Ready\' by opening";
+            this.chb_ShowOsdIsReady.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chb_ShowOsdIsReady.WidthCheckBox = 16;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(764, 362);
+            this.ClientSize = new System.Drawing.Size(764, 411);
             this.Controls.Add(this.tabControlNew1);
             this.Controls.Add(this.labelLastCode);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -685,6 +707,7 @@ namespace PlugIR
         private YLib.NewControls.ButtonNew btnClose;
         private YLib.NewControls.ButtonNew btnOpen;
         private YLib.NewControls.LabelBase labelBase2;
+        private YLib.NewControls.CheckBoxNew chb_ShowOsdIsReady;
     }
 }
 

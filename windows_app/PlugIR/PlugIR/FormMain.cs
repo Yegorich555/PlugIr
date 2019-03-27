@@ -68,10 +68,13 @@ namespace PlugIR
             if (_isReady)
                 return;
             _isReady = true;
-            _activityHandler.GotActivity += _activityHandler_GotActivity;
+            if (chb_ShowOsdIsReady.Checked)
+            {
+                _activityHandler.GotActivity += _activityHandler_GotActivity;
 
-            foreach (var screen in Screen.AllScreens)
-                _osdWindows.Add(OsdText.CreateAndShow($"PlugIr is {(IsPortOpened ? "" : "not ")}ready", IsPortOpened ? Color.LightGreen : Color.LightSalmon, Color.FromArgb(37, 37, 37), 72, screen));
+                foreach (var screen in Screen.AllScreens)
+                    _osdWindows.Add(OsdText.CreateAndShow($"PlugIr is {(IsPortOpened ? "" : "not ")}ready", IsPortOpened ? Color.LightGreen : Color.LightSalmon, Color.FromArgb(37, 37, 37), 72, screen));
+            }
 
         }
 
